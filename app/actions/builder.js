@@ -1,22 +1,43 @@
 // @flow
-import type { builderStateType } from '../reducers/builder';
+import { MainStateType } from '../types/types';
 
-export const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
-
-export function increment() {
+export function addModule(moduleType: string, id: number) {
   return {
-    type: INCREMENT_COUNTER
+    type: 'ADD_MODULE',
+    moduleType,
+    id
   };
 }
 
-export function incrementIfOdd() {
-  return (dispatch: () => void, getState: () => builderStateType) => {
-    const { builder } = getState();
+export function removeModule(id: number) {
+  return {
+    type: 'REMOVE_MODULE',
+    id
+  };
+}
 
-    if (builder % 2 === 0) {
+export function removeLastModule() {
+  return (dispatch: () => void, getState: () => MainStateType) => {
+    const { modules } = getState();
+
+    if (modules.length <= 0) {
       return;
     }
 
-    dispatch(increment());
+    dispatch(removeModule(modules.length - 1));
+  };
+}
+
+export function addNewModule() {
+  return (dispatch: () => void, getState: () => MainStateType) => {
+    const { modules } = getState();
+
+    let moduleId = 0;
+
+    if (modules.length > 0) {
+      moduleId = modules[modules.length - 1].id + 1;
+    }
+
+    dispatch(addModule('full-width', moduleId));
   };
 }

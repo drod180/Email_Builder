@@ -9,6 +9,8 @@ export default class Home extends Component {
     return (
       <div>
         <div className={styles.container}>
+          <h2>Email Builder</h2>
+          <Link to="/builder">New Email</Link>
         </div>
       </div>
     );
